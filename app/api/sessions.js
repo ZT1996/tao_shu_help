@@ -3,11 +3,11 @@ import express from 'express';
 import _ from 'lodash';
 import sha1 from 'sha1';
 import {validateToken, getUsernameFromToken} from './cookies';
-import {User, Book, user_book,Cart} from '../mongodb/schema';
+import {User, Book, user_book, Cart} from '../mongodb/schema';
 const router = express.Router();
 
 router.post('/', function (req, res, next) {
-    const {username,password} = req.body;
+    const {username, password} = req.body;
     console.log("name: " + username + "  password: " + password);
     if (_.isEmpty(username) || _.isEmpty(password)) {
         return res.status(400).send('数据不能为空');
@@ -24,6 +24,10 @@ router.post('/', function (req, res, next) {
         }
     });
 });
+
+function generateToken(username, password) {
+    return username + ':' + sha1(password);
+}
 
 router.get('/current', function (req, res, next) {
     const token = req.cookies['token'];

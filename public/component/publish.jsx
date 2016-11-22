@@ -50,7 +50,7 @@ class Publish extends React.Component {
                     {this.state.uploadedImages.map(i => <img className="img-responsive" key={i} src={i}/>)}
                     <input type="file" id="images" className="upload-images"
                            accept=".jpg,.jpeg,.png,.gif" required="required"
-                           onChange={(e)=>this._handleImageChange(e)}/>
+                           onChange={this._handleImageChange.bind(this)}/>
                     <button className="upload-images-button" onClick={this._onImgUpload.bind(this)}>上传
                     </button>
                     <div>
@@ -107,9 +107,8 @@ class Publish extends React.Component {
     }
 
     _handleImageChange(event) {
-        const file = event.target.files[0];
         this.setState({
-            selectedImage: file
+            selectedImage: event.target.files[0]
         });
     }
 
